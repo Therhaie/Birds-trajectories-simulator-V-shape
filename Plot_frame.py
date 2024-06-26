@@ -4,7 +4,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from Bird_class import Birds
-
+from datetime import datetime, timedelta
 from V_shape_formation import Formation
 from File_parser import directional_force
 from Writting_file import writting_to_csv
@@ -43,21 +43,49 @@ class PlotFrame(ttk.Frame):
     def plot_graphique_dynamic(self):
         if not self.running:
             return
-        # compute of the directional force
+
         path = r'C:\Users\ththy\Desktop\Stage_Thales\birds_trajectories_simulation\Dataset\Local_flight_paths_of_nocturnally_migrating_birds\data_processed\trajectory_0_len160.csv'
-        #print(directional_force(path))
-        print(self.time)
-        
-        # Writte the point in the file
-        writting_to_csv(self.parent, self.time)
 
-        input_trajectories = []
+        current_time = str(directional_force(path)[1].iloc[self.time])
+        format_string = '%Y-%m-%d %H:%M:%S.%f'
+        date_current_time = datetime.strptime(current_time, format_string)
+        init_time = datetime.strptime(str(directional_force(path)[1].iloc[0]), format_string)
+        time_diff = date_current_time - init_time
+        total_seconds = time_diff.total_seconds()
 
-        self.parent.formation.update_birds(self.parent.speed_up * np.array([1,1,1]),self.parent.width, self.parent.height, self.parent.depth, 'incremented')
+        writting_to_csv(self.parent, total_seconds)
+
+        self.parent.formation.update_birds(self.parent.speed_up * directional_force(path)[0][self.time], self.parent.width, self.parent.height, self.parent.depth, 'incremented')
         self.time += 1
         self.update_plot()
-        # self.after(100, self.plot_graphique_dynamic)  # Schedule the next update
-        self.after(self.parent.time_between_refreshing, self.plot_graphique_dynamic)  # Schedule the next update
+        self.after(self.parent.time_between_refreshing, self.plot_graphique_dynamic)
+    
+    
+    # def plot_graphique_dynamic(self):
+    #     if not self.running:
+    #         return
+    #     # compute of the directional force
+    #     path = r'C:\Users\ththy\Desktop\Stage_Thales\birds_trajectories_simulation\Dataset\Local_flight_paths_of_nocturnally_migrating_birds\data_processed\trajectory_0_len160.csv'
+    #     #print(directional_force(path))
+    #     print(self.time)
+        
+    #     #handling the time
+    #     current_time = str(directional_force(path)[1].iloc[self.time])
+    #     format_string = '%Y-%m-%d %H:%M:%S.%f'
+    #     date_current_time = datetime.strptime(current_time, format_string)
+    #     init_time = datetime.strptime(str(directional_force(path)[1].iloc[0]), format_string)
+    #     print(current_time)
+
+    #     # Writte the point in the file
+    #     writting_to_csv(self.parent, date_current_time.minute * 60 + date_current_time.second - init_time)
+
+    #     #input_trajectories = directional_force
+
+    #     self.parent.formation.update_birds(self.parent.speed_up * directional_force(path)[0][self.time],self.parent.width, self.parent.height, self.parent.depth, 'incremented')
+    #     self.time += 1
+    #     self.update_plot()
+    #     # self.after(100, self.plot_graphique_dynamic)  # Schedule the next update
+    #     self.after(self.parent.time_between_refreshing, self.plot_graphique_dynamic)  # Schedule the next update
 
     def start_plotting(self):
         if not self.running:

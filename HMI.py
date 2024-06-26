@@ -4,7 +4,7 @@ from tkinter import ttk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
-
+from datetime import datetime, timedelta
 
 from Bird_class import Birds
 from Plot_frame import PlotFrame
@@ -28,6 +28,7 @@ class App(tk.Tk):
         self.formation.create_flock()
         self.speed_up = 20
         
+
         # start of the plot
         self.plot_frame = PlotFrame(self)
         self.mainloop()
