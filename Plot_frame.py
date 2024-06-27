@@ -69,7 +69,7 @@ class PlotFrame(ctk.CTkFrame):
             self.plot_graphique_dynamic()
 
     def button_plot(self):
-            # start button
+        # start button
         plot_but = ctk.CTkButton(self, text='Start Plotting', command=self.start_plotting, width=100, height=30)
         plot_but.configure(font=("Arial", 10))
         plot_but.place(relx=0.5, rely=0.90, anchor=tk.CENTER)
