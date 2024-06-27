@@ -22,17 +22,16 @@ class App(ctk.CTk, Subject):
         self.geometry(f"{self.geometry_x}x{self.geometry_y}]")
         self.minsize(1000, 600)
         
-        # Parameters for the simulation
-        self.width, self.height, self.depth = 10000, 10000, 10000
-        self.distance_x, self.distance_y, self.distance_z = 50, 50, 0
-        self.num_birds = 15
-        self.time_between_refreshing = 100
-        
-        # every code under this will have to move because the parameters will need to be actualized
-        # creation fo the flock
-        self.formation = Formation(np.zeros(3), self.num_birds, self.distance_x, self.distance_y, self.distance_z)
+       # Parameters for the simulation
+        self._width, self._height, self._depth = 10000, 10000, 10000
+        self._distance_x, self._distance_y, self._distance_z = 50, 50, 0
+        self._num_birds = 15
+        self._time_between_refreshing = 100
+
+        # creation of the flock
+        self.formation = Formation(np.zeros(3), self._num_birds, self._distance_x, self._distance_y, self._distance_z)
         self.formation.create_flock()
-        self.speed_up = 20
+        self._speed_up = 20
         
         # start of the plot
         self.plot_frame = PlotFrame(self)
