@@ -36,15 +36,6 @@ class App(ctk.CTk, Subject):
         # start of the plot
         self.plot_frame = PlotFrame(self)
         self.parameters_frame = ParametersFrame(self)
-    
-    def update_paremeters(self, num_birds, distance_x, distance_y, distance_z, time_between_refreshing, speed_up):
-        self.num_birds = num_birds
-        self.distance_x = distance_x
-        self.distance_y = distance_y
-        self.distance_z = distance_z
-        self.time_between_refreshing = time_between_refreshing
-        self.speed_up = speed_up
-        self.notify((num_birds, distance_x, distance_y, distance_z, time_between_refreshing, speed_up))
 
     # getter and setter
     @property
